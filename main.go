@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
+	"github.com/dustin/go-humanize"
 	"net/http"
 	"os"
 	"strconv"
-	"github.com/dustin/go-humanize"
 )
 
 type Vaccinate struct {
@@ -17,7 +17,7 @@ type Vaccinate struct {
 	TotalVaccinations     string
 	PeopleVaccinated      string
 	PeopleFullyVaccinated string
-	Today                string
+	Perday                string
 }
 
 const csvURL = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/country_data/Thailand.csv"
@@ -37,18 +37,20 @@ func main() {
 	for _, line := range lines {
 		total, _ := strconv.Atoi(line[4])
 		today := total - prev
-		t := humanize.Comma(int64(today))
-		
+		t := humanize.Comma(int64(total))
+		p := humanize.Comma(int64(today))
+
 		data := Vaccinate{
 			Date:                  line[1],
 			TotalVaccinations:     line[4],
 			PeopleVaccinated:      line[5],
 			PeopleFullyVaccinated: line[6],
-			Today:                 t,
+			Perday:                p,
 		}
 
 		prev = total
-		fmt.Printf("%v\n", data)
+		//fmt.Printf("%v\n", data)
+		fmt.Printf("Date: %s Total: %9s Perday: %7s\n", data.Date, t, p)
 	}
 
 	//etag := getEtag()
