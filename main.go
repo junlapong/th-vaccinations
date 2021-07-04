@@ -50,7 +50,7 @@ func main() {
 
 		prev = total
 		//fmt.Printf("%v\n", data)
-		fmt.Printf("Date: %s Total: %9s Perday: %7s\n", data.Date, t, p)
+		fmt.Printf("Date: %s Total: %10s Perday: %7s\n", data.Date, t, p)
 	}
 
 	//etag := getEtag()
